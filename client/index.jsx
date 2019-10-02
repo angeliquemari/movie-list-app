@@ -1,5 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './src/App';
+import MovieList from './src/MovieList';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+var movies = [
+  {title: 'Mean Girls'},
+  {title: 'Hackers'},
+  {title: 'The Grey'},
+  {title: 'Sunshine'},
+  {title: 'Ex Machina'},
+];
+
+ReactDOM.render(<MovieList movies={movies}/>, document.getElementById('app'));
