@@ -6,11 +6,13 @@ class MovieList extends React.Component {
     super(props);
     this.state = {
       movies: [],
-      searchedMovies: []
+      displayedMovies: [],
+      displayWatched: false
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleMovieAdd = this.handleMovieAdd.bind(this);
     this.toggleWatched = this.toggleWatched.bind(this);
+    this.toggleWatchedList = this.toggleWatchedList.bind(this);
   };
 
   render() {
@@ -25,7 +27,11 @@ class MovieList extends React.Component {
           <button onClick={this.handleSearch}>Search</button>
         </div>
         <div>
-          {this.state.searchedMovies.map((movie, index) => <Movie key={index} title={movie.title} watched={movie.watched} onclick={this.toggleWatched} /> )}
+          <button id="watched-button" onClick={this.toggleWatchedList}>Watched</button>
+          <button id="to-watch-button" onClick={this.toggleWatchedList}>To Watch</button>
+        </div>
+        <div>
+          {this.state.displayedMovies.map((movie, index) => <Movie key={index} title={movie.title} watched={movie.watched} onclick={this.toggleWatched} /> )}
         </div>
       </div>
     )
@@ -33,13 +39,12 @@ class MovieList extends React.Component {
 
   handleSearch() {
     var userInput = document.getElementById('search-input').value;
-    var newSearchedMovies = getSearchedMovies(userInput, this.state.movies);
-    if (newSearchedMovies.length === 0) {
+    var newDisplayedMovies = getSearchedMovies(userInput, this.state.movies);
+    if (newDisplayedMovies.length === 0) {
       alert('No movie by that name found');
-      this.setState({searchedMovies: this.state.movies}); // re-render view to show all movies
+      this.setState({displayedMovies: this.state.movies}); // re-render view to show all movies
     } else {
-      newSearchedMovies = newSearchedMovies.map((movie) => { return {title: movie} } );
-      this.setState({searchedMovies: newSearchedMovies}); // re-render view to just show movies matching search terms
+      this.setState({displayedMovies: newDisplayedMovies}); // re-render view to just show movies matching search terms
     }
   }
 
@@ -49,7 +54,7 @@ class MovieList extends React.Component {
       var newMovies = this.state.movies.concat([{title: newMovie, watched: false}]);
       this.setState({
         movies: newMovies,
-        searchedMovies: newMovies // re-render view to show all movies including new one
+        displayedMovies: newMovies // re-render view to show all movies including new one
       });
     }
   }
@@ -64,23 +69,30 @@ class MovieList extends React.Component {
     }
     this.setState({
       movies: newMovies,
-      searchedMovies: newMovies
+      displayedMovies: newMovies
     });
+  }
+
+  toggleWatchedList() {
+    console.log('click!');
   }
 }
 
 var getSearchedMovies= function(userInput, movies) {
+  var searchedMovies = [];
   var searchTerms = userInput.split(' ');
-  movies = movies.map(movie => movie['title']);
-  return movies.filter((movie) => {
-    var movieWords = movie.split(' ');
-    for (let i = 0; i < movieWords.length; i++) {
-      for (let j = 0; j < searchTerms.length; j++) {
-        if (movieWords[i].toLowerCase() === searchTerms[j].toLowerCase()) return true;
+  for (let i = 0; i < movies.length; i++) {
+    var movie = movies[i];
+    var movieTitleWords = movie.title.split(' ');
+    for (let j = 0; j < movieTitleWords.length; j++) {
+      for (let k = 0; k < searchTerms.length; k++) {
+        if (movieTitleWords[j].toLowerCase() === searchTerms[k].toLowerCase()) {
+          searchedMovies.push(movie);
+        }
       }
     }
-    return false;
-  });
+  }
+  return searchedMovies;
 }
 
 export default MovieList;
