@@ -1,27 +1,16 @@
 import React from 'react';
 import Movie from './Movie';
 
-// var initialMovieList = [
-//   {title: 'Mean Girls'},
-//   {title: 'Hackers'},
-//   {title: 'The Grey'},
-//   {title: 'Sunshine'},
-//   {title: 'Ex Machina'},
-// ];
-
 class MovieList extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   movies: initialMovieList,
-    //   searchedMovies: initialMovieList
-    // };
     this.state = {
       movies: [],
       searchedMovies: []
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleMovieAdd = this.handleMovieAdd.bind(this);
+    this.toggleWatched = this.toggleWatched.bind(this);
   };
 
   render() {
@@ -36,14 +25,13 @@ class MovieList extends React.Component {
           <button onClick={this.handleSearch}>Search</button>
         </div>
         <div>
-          {this.state.searchedMovies.map((movie, index) => <Movie key={index} title={movie.title} /> )}
+          {this.state.searchedMovies.map((movie, index) => <Movie key={index} title={movie.title} watched={movie.watched} onclick={this.toggleWatched} /> )}
         </div>
       </div>
     )
   }
 
-  handleSearch(e) {
-    e.preventDefault();
+  handleSearch() {
     var userInput = document.getElementById('search-input').value;
     var newSearchedMovies = getSearchedMovies(userInput, this.state.movies);
     if (newSearchedMovies.length === 0) {
@@ -55,16 +43,29 @@ class MovieList extends React.Component {
     }
   }
 
-  handleMovieAdd(e) {
-    e.preventDefault();
+  handleMovieAdd() {
     var newMovie = document.getElementById('new-movie-input').value.trim();
     if (newMovie) {
-      var newMovies = this.state.movies.concat([{title: newMovie}]);
+      var newMovies = this.state.movies.concat([{title: newMovie, watched: false}]);
       this.setState({
         movies: newMovies,
         searchedMovies: newMovies // re-render view to show all movies including new one
       });
     }
+  }
+
+  toggleWatched(title) {
+    var newMovies = this.state.movies.slice();
+    for (let i = 0; i < newMovies.length; i++) {
+      if (newMovies[i].title === title) {
+        newMovies[i].watched = !newMovies[i].watched;
+        break;
+      }
+    }
+    this.setState({
+      movies: newMovies,
+      searchedMovies: newMovies
+    });
   }
 }
 

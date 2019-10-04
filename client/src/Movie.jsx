@@ -1,8 +1,10 @@
 import React from 'react';
 
-function Movie({title}) {
+function Movie({title, watched, onclick}) {
   return (
-    <div>{title}</div>
+    <div>
+      <span>{title}</span><button onClick={() => { onclick(title)} }>{(!watched) ? 'To watch' : 'Watched'}</button>
+    </div>
   );
 }
 
