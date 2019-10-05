@@ -31,10 +31,14 @@ class MovieList extends React.Component {
           <button id="to-watch-button" onClick={this.toggleWatchedList}>To Watch</button>
         </div>
         <div>
-          {this.state.displayedMovies.map((movie, index) => <Movie key={index} title={movie.title} watched={movie.watched} onclick={this.toggleWatched} /> )}
+          {this.state.displayedMovies.map((pointer, index) => <Movie key={index} title={this.state.movies[pointer].title} watched={this.state.movies[pointer].watched} onclick={this.toggleWatched} /> )}
         </div>
       </div>
     )
+  }
+
+  resetDisplayedMovies(movies = this.state.movies) {
+    return Array(movies.length).fill(0).map((item, index) => index);
   }
 
   handleSearch() {
@@ -42,7 +46,7 @@ class MovieList extends React.Component {
     var newDisplayedMovies = getSearchedMovies(userInput, this.state.movies);
     if (newDisplayedMovies.length === 0) {
       alert('No movie by that name found');
-      this.setState({displayedMovies: this.state.movies}); // re-render view to show all movies
+      this.setState({displayedMovies: resetDisplayedMovies()}); // re-render view to show all movies
     } else {
       this.setState({displayedMovies: newDisplayedMovies}); // re-render view to just show movies matching search terms
     }
@@ -52,9 +56,10 @@ class MovieList extends React.Component {
     var newMovie = document.getElementById('new-movie-input').value.trim();
     if (newMovie) {
       var newMovies = this.state.movies.concat([{title: newMovie, watched: false}]);
+      var newDisplayedMovies = this.resetDisplayedMovies(newMovies);
       this.setState({
         movies: newMovies,
-        displayedMovies: newMovies // re-render view to show all movies including new one
+        displayedMovies: newDisplayedMovies // re-render view to show all movies including new one
       });
     }
   }
@@ -68,13 +73,15 @@ class MovieList extends React.Component {
       }
     }
     this.setState({
-      movies: newMovies,
-      displayedMovies: newMovies
+      movies: newMovies
     });
   }
 
   toggleWatchedList() {
     console.log('click!');
+    if (!this.displayWatched && )
+    // if displayWatched = false and 'watched' clicked, display watched
+    // id displayWatched = true and 'to watch' clicked, display to watch
   }
 }
 
@@ -87,7 +94,7 @@ var getSearchedMovies= function(userInput, movies) {
     for (let j = 0; j < movieTitleWords.length; j++) {
       for (let k = 0; k < searchTerms.length; k++) {
         if (movieTitleWords[j].toLowerCase() === searchTerms[k].toLowerCase()) {
-          searchedMovies.push(movie);
+          searchedMovies.push(i);
         }
       }
     }
