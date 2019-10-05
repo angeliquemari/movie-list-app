@@ -27,8 +27,8 @@ class MovieList extends React.Component {
           <button onClick={this.handleSearch}>Search</button>
         </div>
         <div>
-          <button id="watched-button" onClick={this.toggleWatchedList}>Watched</button>
-          <button id="to-watch-button" onClick={this.toggleWatchedList}>To Watch</button>
+          <button id="watched-button" onClick={() => { this.toggleWatchedList(true) }}>Watched</button>
+          <button id="to-watch-button" onClick={() => { this.toggleWatchedList(false) }}>To Watch</button>
         </div>
         <div>
           {this.state.displayedMovies.map((pointer, index) => <Movie key={index} title={this.state.movies[pointer].title} watched={this.state.movies[pointer].watched} onclick={this.toggleWatched} /> )}
@@ -46,9 +46,9 @@ class MovieList extends React.Component {
     var newDisplayedMovies = getSearchedMovies(userInput, this.state.movies);
     if (newDisplayedMovies.length === 0) {
       alert('No movie by that name found');
-      this.setState({displayedMovies: resetDisplayedMovies()}); // re-render view to show all movies
+      this.setState({displayedMovies: this.resetDisplayedMovies()}); // re-render shows all movies
     } else {
-      this.setState({displayedMovies: newDisplayedMovies}); // re-render view to just show movies matching search terms
+      this.setState({displayedMovies: newDisplayedMovies}); // re-render shows just movies matching search terms
     }
   }
 
@@ -59,7 +59,7 @@ class MovieList extends React.Component {
       var newDisplayedMovies = this.resetDisplayedMovies(newMovies);
       this.setState({
         movies: newMovies,
-        displayedMovies: newDisplayedMovies // re-render view to show all movies including new one
+        displayedMovies: newDisplayedMovies // re-render shows all movies including new one
       });
     }
   }
@@ -77,11 +77,19 @@ class MovieList extends React.Component {
     });
   }
 
-  toggleWatchedList() {
-    console.log('click!');
-    if (!this.displayWatched && )
-    // if displayWatched = false and 'watched' clicked, display watched
-    // id displayWatched = true and 'to watch' clicked, display to watch
+  toggleWatchedList(getWatched) {
+    var newDisplayedMovies = [];
+    for (let i = 0; i < this.state.movies.length; i++) {
+      if (getWatched && this.state.movies[i].watched) {
+        newDisplayedMovies.push(i);
+      }
+      if (!getWatched && !this.state.movies[i].watched) {
+        newDisplayedMovies.push(i);
+      }
+    }
+    this.setState({
+      displayedMovies: newDisplayedMovies
+    });
   }
 }
 
