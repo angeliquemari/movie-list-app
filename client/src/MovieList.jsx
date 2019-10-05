@@ -80,12 +80,9 @@ class MovieList extends React.Component {
   toggleWatchedList(getWatched) {
     var newDisplayedMovies = [];
     for (let i = 0; i < this.state.movies.length; i++) {
-      if (getWatched && this.state.movies[i].watched) {
-        newDisplayedMovies.push(i);
-      }
-      if (!getWatched && !this.state.movies[i].watched) {
-        newDisplayedMovies.push(i);
-      }
+      var movieWatched = this.state.movies[i].watched;
+      if (getWatched && movieWatched) newDisplayedMovies.push(i);
+      if (!getWatched && !movieWatched) newDisplayedMovies.push(i);
     }
     this.setState({
       displayedMovies: newDisplayedMovies
