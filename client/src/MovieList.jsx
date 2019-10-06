@@ -1,18 +1,27 @@
 import React from 'react';
 import Movie from './Movie';
 
+var movieData = [
+  {title: 'Legally Blonde', watched: false, releaseDate: '2001-07-13', runtime: 96, overview: 'some info', voteAvg: 6},
+  {title: 'V for Vendetta', watched: false, releaseDate: '2006-03-17', runtime: 132, overview: 'some info', voteAvg: 7},
+  {title: 'Gone With The Wind', watched: false, releaseDate: '1940-01-17', runtime: 226, overview: 'some info', voteAvg: 8}
+];
+var displayedMovies = Array(movieData.length).fill(0).map((item, index) => index);
+
 class MovieList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: [],
-      displayedMovies: [],
-      displayWatched: false
+      movies: movieData, //[],
+      displayedMovies: displayedMovies, //[],
+      displayWatched: false,
+      displayedMoviePanels: []
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleMovieAdd = this.handleMovieAdd.bind(this);
     this.toggleWatched = this.toggleWatched.bind(this);
     this.toggleWatchedList = this.toggleWatchedList.bind(this);
+    this.showMoviePanel = this.showMoviePanel.bind(this);
   };
 
   render() {
@@ -31,7 +40,7 @@ class MovieList extends React.Component {
           <button id="to-watch-button" onClick={() => { this.toggleWatchedList(false) }}>To Watch</button>
         </div>
         <div>
-          {this.state.displayedMovies.map((pointer, index) => <Movie key={index} title={this.state.movies[pointer].title} watched={this.state.movies[pointer].watched} onclick={this.toggleWatched} /> )}
+          {this.state.displayedMovies.map((pointer, index) => <Movie key={index} movie={this.state.movies[pointer]} onclick={this.toggleWatched} showpanel={this.showMoviePanel} /> )}
         </div>
       </div>
     )
@@ -87,6 +96,22 @@ class MovieList extends React.Component {
     this.setState({
       displayedMovies: newDisplayedMovies
     });
+  }
+
+  showMoviePanel(title) {
+    // ideally get index of title, add to array of which movies are displaying their panel
+    // need to figure out how this info will get passed down to Movie component
+    // and component is written so that it can selectively display a panel
+    // var newdisplayedMoviePanels = displayedMoviePanels.slice();
+    // for (let i = 0; i < newMovies.length; i++) {
+    //   if (newMovies[i].title === title) {
+    //     newdisplayedMoviePanels.push(i);
+    //     break;
+    //   }
+    // }
+    // this.setState({
+    //   displayedMoviePanels: newdisplayedMoviePanels
+    // });
   }
 }
 
