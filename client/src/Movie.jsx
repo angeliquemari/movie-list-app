@@ -1,16 +1,21 @@
 import React from 'react';
 
-function Movie({movie, showPanel, titleclick, onclick}) {
+function Movie({movie, showPanel, titleclick, onchange}) {
   return (
     <div>
-      <span onClick={ () => {titleclick(movie.title)} } >{movie.title}</span><button onClick={() => { onclick(movie.title)} }>{(!movie.watched) ? 'To watch' : 'Watched'}</button>
+      <div onClick={ () => {titleclick(movie.title)} } >{movie.title}</div>
       {showPanel &&
       <div>
-        <div>Hardcoded overview etc.</div>
+        <div>Overview: some text</div>
+        <div>Rating: some number</div>
+        <div>Runtime: some # of mins</div>
+        <div>Released: some date/year</div>
         {/* <div>Overview: {movie.overview}</div>
         <div>Rating: {movie.voteAvg}</div>
         <div>Runtime: {movie.runtime} mins</div>
         <div>Released: {movie.releaseDate}</div> */}
+        {/* <button onClick={() => { onclick(movie.title)} }>{(!movie.watched) ? 'To watch' : 'Watched'}</button> */}
+        <input type="checkbox" checked={movie.watched} onChange={() => { onchange(movie.title)} }/><label>Watched</label>
       </div>}
     </div>
   );

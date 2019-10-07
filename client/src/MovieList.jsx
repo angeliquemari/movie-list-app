@@ -39,7 +39,7 @@ class MovieList extends React.Component {
           <button id="to-watch-button" onClick={() => { this.toggleWatchedList(false) }}>To Watch</button>
         </div>
         <div>
-          {this.state.displayedMovies.map((pointer, index) => <Movie key={index} movie={this.state.movies[pointer.index]} showPanel={pointer.showPanel} titleclick={this.handleTitleClick} onclick={this.toggleWatched} /> )}
+          {this.state.displayedMovies.map((pointer, index) => <Movie key={index} movie={this.state.movies[pointer.index]} showPanel={pointer.showPanel} titleclick={this.handleTitleClick} onchange={this.toggleWatched} /> )}
         </div>
       </div>
     )
