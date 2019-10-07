@@ -9,4 +9,6 @@ app.get('/', (req, res) => {
   res.end()
 });
 
+// todo: set up handler for get req to /api/movies
+
 app.listen(port, () => {console.log(`Listening on port ${port}`)});
