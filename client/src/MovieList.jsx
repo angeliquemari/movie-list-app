@@ -1,13 +1,6 @@
 import React from 'react';
 import Movie from './Movie';
 
-// var movieData = [
-//   {title: 'Legally Blonde', watched: false, releaseDate: '2001-07-13', runtime: 96, overview: 'some info', voteAvg: 6},
-//   {title: 'V for Vendetta', watched: false, releaseDate: '2006-03-17', runtime: 132, overview: 'some info', voteAvg: 7},
-//   {title: 'Gone With The Wind', watched: false, releaseDate: '1940-01-17', runtime: 226, overview: 'some info', voteAvg: 8}
-// ];
-// var displayedMovies = Array(movieData.length).fill(0).map((item, index) => { return {index: index, showPanel: false} });
-
 class MovieList extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +38,8 @@ class MovieList extends React.Component {
     )
   }
 
+  // todo: add componentDidMount() to make get request to server to setState with saved movies
+
   resetDisplayedMovies(movies = this.state.movies) {
     return Array(movies.length).fill(0).map((item, index) => { return {index: index, showPanel: false} });
   }
@@ -60,6 +55,10 @@ class MovieList extends React.Component {
     }
   }
 
+  // todo: update this fn to make get request to server to add movie
+  // server will make get req to imdb api for new movie, save info to db
+  // return obj that includes: title, overview, voteAvg, runtime, releaseDate
+  // then make get req to get all movies and setState
   handleMovieAdd() {
     var newMovie = document.getElementById('new-movie-input').value.trim();
     if (newMovie) {

@@ -14,7 +14,6 @@ function Movie({movie, showPanel, titleclick, onchange}) {
         <div>Rating: {movie.voteAvg}</div>
         <div>Runtime: {movie.runtime} mins</div>
         <div>Released: {movie.releaseDate}</div> */}
-        {/* <button onClick={() => { onclick(movie.title)} }>{(!movie.watched) ? 'To watch' : 'Watched'}</button> */}
         <input type="checkbox" checked={movie.watched} onChange={() => { onchange(movie.title)} }/><label>Watched</label>
       </div>}
     </div>
